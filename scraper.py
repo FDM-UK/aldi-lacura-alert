@@ -1,14 +1,17 @@
+"""
+Scrapes the Aldi health and beauty Special Buys page
+and checks for Lacura products.
+"""
+
+
 from bs4 import BeautifulSoup
 import requests
 
 url = "https://www.aldi.co.uk/products/specialbuys/health-and-beauty"
 response = requests.get(url)
+
 soup = BeautifulSoup(response.content, 'html.parser')
 products = soup.find_all('div', class_='product-tile')
-
-# print(f"Found {len(products)} products")
-# print(products[0])
-
 
 lacura_found = False
 for product in products:
