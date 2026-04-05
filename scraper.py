@@ -24,14 +24,20 @@ products = soup.find_all('div', class_='product-tile')
 
 lacura_found = False
 for product in products:
-    brand = product.find('div', class_='product-tile__brandname').text.strip()  # find the brandname div and get its text
-    if 'lacura' in brand.lower():  # check the brand in lowercase
-        print(f"Lacura product found: {product['title']}")
+    brand = product.find('div', class_='product-tile__brandname').text.strip()
+    if 'lacura' in brand.lower():
+        badge = product.find('div', class_='base-label--info')
+        if badge:
+            sale_date = badge.text.strip()
+        else:
+            sale_date = "In Store Now"
+        print(f"Lacura product found: {product['title']} — {sale_date}")
         lacura_found = True
         supabase.table('alert_log').insert({
             "product_name": product['title'],
+            "sale_date": sale_date,
             "recipient_count": 0
-            }).execute()  # insert the product name into the alert_log table
+        }).execute()
 
 if not lacura_found:
     print("No Lacura products found")
