@@ -6,6 +6,15 @@ and checks for Lacura products.
 
 from bs4 import BeautifulSoup
 import requests
+import os
+from dotenv import load_dotenv
+from supabase import create_client
+
+load_dotenv()
+
+url_supabase = os.getenv("SUPABASE_URL")
+key_supabase = os.getenv("SUPABASE_KEY")
+supabase = create_client(url_supabase, key_supabase)
 
 url = "https://www.aldi.co.uk/products/specialbuys/health-and-beauty"
 response = requests.get(url)
@@ -19,6 +28,10 @@ for product in products:
     if 'lacura' in brand.lower():  # check the brand in lowercase
         print(f"Lacura product found: {product['title']}")
         lacura_found = True
+        supabase.table('alert_log').insert({
+            "product_name": product['title'],
+            "recipient_count": 0
+            }).execute()  # insert the product name into the alert_log table
 
 if not lacura_found:
     print("No Lacura products found")
