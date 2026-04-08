@@ -111,7 +111,14 @@
                 console.log('Error:', error)
                 document.querySelector('.container').innerHTML = '<h1>Something went wrong</h1><p>Please try signing up again.</p>'
             } else {
-                document.querySelector('.container').innerHTML = '<h1>Subscription Confirmed!</h1><p>You\'re now subscribed to Lacura Alerts. We\'ll email you when Lacura appears in Aldi Special Buys!</p>'
+                document.querySelector('.container').innerHTML = `
+                    <h1>Subscription Confirmed!</h1>
+                    <p>You're now subscribed to Lacura Alerts. We'll email you when Lacura appears in Aldi Special Buys!</p>
+                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #f0e6e6;">
+                    <p class="small-print">If you find this useful, you can</p>
+                    <a href="https://ko-fi.com/lacura_alerts" target="_blank" style="display: inline-block; margin-top: 0.5rem; background-color: #c4687a; color: white; padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem;">☕ Buy me a coffee</a>
+                </div>
+                `
             }
         }
 

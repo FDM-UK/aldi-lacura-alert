@@ -32,7 +32,7 @@ def send_alert_email(recipient_email, new_products, token):
 
     subject = "Lacura is in Aldi Special Buys!"
     product_lines = "\n".join([f"- {p['name']} — {p['sale_date']}" for p in new_products])
-    content = f"Good news! We found Lacura products in this week's Aldi Special Buys listings: \n\n{product_lines}\n\nHead to your nearest Aldi!\n\nTo unsubscribe from these alerts, click here: {unsubscribe_url}"
+    content = f"Good news! We found Lacura products in this week's Aldi Special Buys listings:\n\n{product_lines}\n\nHead to your nearest Aldi!\n\nTo unsubscribe from these alerts, click here: {unsubscribe_url}\n\n---\nIf you find this service useful, you can buy me a coffee: https://ko-fi.com/lacura_alerts"    
     
     email = sib_api_v3_sdk.SendSmtpEmail(
         to=[{"email": recipient_email}],
