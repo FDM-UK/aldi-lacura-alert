@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #fdf6f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 16px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            color: #c4687a;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.9rem;
+            background-color: #c4687a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #a85666;
+        }
+
+        .small-print {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 1rem;
+            margin-bottom: 0;
+        }
+
+    </style>
+    <title>Aldi Lacura Special Buy Alerts</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Confirming...</h1>
+        <p>Please wait while we confirm your subscription.</p>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://ielciasxntzieyounvhj.supabase.co'
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImllbGNpYXN4bnR6aWV5b3VudmhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MDQxNzAsImV4cCI6MjA5MDk4MDE3MH0.4NMcXR6nVuoDTdQ5FtVUeogU81jcRxHj9q-E9vUD2TU'
+
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+        async function confirmSubscription() {
+            const params = new URLSearchParams(window.location.search)
+            const token = params.get('token')
+
+            if (!token) {
+                document.querySelector('.container').innerHTML = '<h1>Invalid Link</h1><p>This confirmation link is not valid.</p>'
+                return
+            }
+
+            const { data, error } = await supabaseClient
+                .from('subscribers')
+                .update({ confirmed: true })
+                .eq('token', token)
+
+            if (error) {
+                console.log('Error:', error)
+                document.querySelector('.container').innerHTML = '<h1>Something went wrong</h1><p>Please try signing up again.</p>'
+            } else {
+                document.querySelector('.container').innerHTML = '<h1>Subscription Confirmed!</h1><p>You\'re now subscribed to Lacura Alerts. We\'ll email you when Lacura appears in Aldi Special Buys!</p>'
+            }
+        }
+
+        confirmSubscription()
+    </script>
+
+</body>
+</html>
